@@ -6,6 +6,13 @@ package mg.itu.tpbanquetiavinafrancia.service;
 
 import jakarta.annotation.sql.DataSourceDefinition;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
+import java.util.List;
+import mg.itu.tpbanquetiavinafrancia.entity.CompteBancaire;
 
 /**
  *pour gérer les comptes bancaires dans la base de données.
@@ -27,5 +34,16 @@ import jakarta.enterprise.context.RequestScoped;
 )
 @RequestScoped
 public class GestionnaireCompte {
+    @PersistenceContext(unitName = "banquePU")
+    private EntityManager em;
+
+    public List<CompteBancaire> getAllComptes() {
+       TypedQuery<CompteBancaire> query = em.createNamedQuery("CompteBancaire.findAll",CompteBancaire.class);
+       return query.getResultList();
+    }
     
+    @Transactional
+    public void creerCompte(CompteBancaire c)  {
+       em.persist(c);
+    }
 }
