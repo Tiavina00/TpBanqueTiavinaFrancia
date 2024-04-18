@@ -5,6 +5,7 @@
 package mg.itu.tpbanquetiavinafrancia.service;
 
 import jakarta.annotation.sql.DataSourceDefinition;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -32,7 +33,7 @@ import mg.itu.tpbanquetiavinafrancia.entity.CompteBancaire;
       "driverClass=com.mysql.cj.jdbc.Driver"
     }
 )
-@RequestScoped
+@ApplicationScoped
 public class GestionnaireCompte {
     @PersistenceContext(unitName = "banquePU")
     private EntityManager em;
@@ -45,5 +46,11 @@ public class GestionnaireCompte {
     @Transactional
     public void creerCompte(CompteBancaire c)  {
        em.persist(c);
+    }
+    
+    public long nbComptes(){
+        
+        Query query = em.createNamedQuery("CompteBancaire.count");
+        return (Long)query.getSingleResult();
     }
 }
