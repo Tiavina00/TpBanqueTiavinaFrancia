@@ -24,6 +24,9 @@ public class CompteBancaire implements Serializable {
     private String nom;
     private int solde;
 
+    public CompteBancaire() {
+    }
+
     public Long getId() {
         return id;
     }
